@@ -1,47 +1,56 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class BaseNode : MonoBehaviour
+[System.Serializable]
+public abstract class BaseNode : MonoBehaviour
 {
+    public string publicName;
+    public int moneyStorage
+    {
+        get { return moneyStorage; }
+        set
+        {
+            moneyStorage = value;
+            if (moneyStorage >= moneyStorageSize)
+                moneyStorage = moneyStorageSize;
+        }
+    }
+    public int drugStorage
+    {
+        get { return drugStorage; }
+        set
+        {
+            moneyStorage = value;
+            if (drugStorage >= drugsStorageSize)
+                drugStorage = drugsStorageSize;
+        }
+    }
+    public int index
+    {
+        get
+        {
+            return _index;
+        }
+        set
+        {
+            if (value < Save.game.workPlace.Count)
+            {
+                BaseNode sNode = Save.game.workPlace[value];
+                Save.game.workPlace[value] = this;
+                Save.game.workPlace[_index] = sNode;
+                _index = value;
+            }
+        }
+    }
+    public int moneyStorageSize { get; private set; }
+    public int drugsStorageSize { get; private set; }
+
+
+
     public List<Transition> transitions;
 
-    [SerializeField] public string uiName;
-    [SerializeField] public string nodeName;
-
-    [SerializeField] public int moneyCost;
-    [SerializeField] public int authorityCondition;
-
-    [SerializeField] public int level;
-    [SerializeField] public int moneyStorageSize;
-    [SerializeField] public int resStorageSize;
-    [SerializeField] public int drugsStorageSize;
-
-    public int hierarchyIndex { get; set; }
-
-    private int moneyStorage;
-    private int resStorage;
-    private int drugsStorage;
-
-    
+    private string privateName;
+    private int _index;
 
 
-    private void Start()
-    {
-        transitions = new List<Transition>();
-    }
-
-    public void MakeTransition(BaseNode target, int money,int res,int drugs)
-    {
-        //transitions.
-    }
-    public void Step ()
-    {
-        foreach (var t in transitions)
-            t.Send();
-    }
-    public void AddTransition ()
-    {
-
-    }
 }

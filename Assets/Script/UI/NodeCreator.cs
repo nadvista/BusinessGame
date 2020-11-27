@@ -14,7 +14,7 @@ public class NodeCreator : MonoBehaviour
     private TextMeshProUGUI aboutText;
     private void Start()
     {
-        var m = Camera.main.GetComponent<Game>();
+        var m = Camera.main.GetComponent<UI>();
         aboutPanel = m.aboutPanel;
         aboutText = m.aboutText;
     }
